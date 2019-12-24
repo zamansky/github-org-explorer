@@ -1,0 +1,27 @@
+{
+  "name": "shadow-electorn-starter",
+  "version": "1.0.0",
+  "description": "shadow-clijs electron starter",
+  "main": "resources/main.js",
+  "scripts": {
+    "dev": "./node_modules/.bin/shadow-cljs watch main renderer",
+    "build": "./node_modules/.bin/shadow-cljs compile main renderer",
+    "clean": "rm -rf resources/public/js/* && rm -rf target"
+  },
+  "keywords": [
+    "shadow-cljs",
+    "reagent",
+    "electron"
+  ],
+  "author": "Ahonn Jiang <ahonn95@outlook.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^3.0.16",
+    "shadow-cljs": "^2.8.61"
+  },
+  "dependencies": {
+    "create-react-class": "^15.6.3",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  }
+}

@@ -29,23 +29,8 @@
 
 (defn root-component []
   [:div
-   
-   [:button
-    {:on-click #(swap! state inc)}
-    (str "Clicked " @state " times")]
-   [:div
-    [:form
-     {:on-submit (fn [^js/Event e]
-                   (.preventDefault e)
-                   (run-process))}
-     [:input#command
-      {:type :text
-       :on-change (fn [^js/Event e]
-                    (reset! command
-                            ^js/String (.-value (.-target e))))
-       :value @command
-       :placeholder "type in shell command"}]]]
-   [:pre (join-lines (take 100 (reverse (split-lines @shell-result))))]])
+   "Hello World!"
+   ])
 
 
 (defn start! []

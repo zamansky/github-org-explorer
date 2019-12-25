@@ -44,6 +44,9 @@
         )
       )))
 
+(defn get-orgs []
+  
+  )
 (defn main-component []
   [:div 
    [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]

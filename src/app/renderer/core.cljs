@@ -116,7 +116,7 @@
   )
 
 (defn main-component []
-  [:div 
+  [:div#main 
    [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
    [:div.py-1.font-bold "Login with your GitHub ID"]
    [navbar]

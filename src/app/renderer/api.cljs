@@ -25,7 +25,7 @@
         creds (:credentials @state)
         url (goog.string/format "https://api.github.com/orgs/%s/repos" org)
         ]
-    (go-loop [repos [] url url ]
+    (go-loop [repos [] url url times 0]
       (let [response (<! (http/get url {:with-credentials? false
                                         :headers {"Authorization"(goog.string/format "Basic %s" creds)}}))
             body (:body response)
@@ -37,7 +37,7 @@
         (cond
           (nil? link)  (swap! state assoc :all-repos (sort (into repos additional-repos )))
           
-          :else (recur (into repos additional-repos) next-link)
+          :else (recur (into repos additional-repos) next-link (inc times))
           )
         )
       )

@@ -1,0 +1,17 @@
+query LoadOrgs($username: String!){ 
+  user(login:$username){
+    organizations(first:2){
+      pageInfo{
+        hasNextPage
+      }
+      edges{
+        cursor
+        node {
+          name
+
+        }
+      }
+    }
+  }
+}
+

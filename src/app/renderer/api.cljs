@@ -1,28 +1,18 @@
 (ns app.renderer.api
   (:require
-   [graphql-query.core :refer [graphql-query]]
+   [cljs.core.async :refer (chan put! <! >! go go-loop timeout)]
+   [cljs-http.client :as http]
+   [graphql-builder.parser :refer-macros [defgraphql]]
+   [graphql-builder.core :as core]
    ))
 
-(graphql-query  {:queries [[:user {:login "zamansky"}
-                            [:organizations {:first 99}
-                             [:edges  [cursor :node [:name]]]]]]})
+(defgraphql graphq-queries "queries.graphql")
+(def qmap (core/query-map graphq-queries))
+
+(def z (get-in qmap [:query :load-orgs]))
+;;(z {:username "zamansky"})
 
 
-;; query { 
-;;        user(login:"zamansky"){
-;;                               organizations(first:99){
 
-;;       	                                              edges{
-;;                                                             cursor
 
-;;                                                             node{
-
-;;                                                                  name 
-;;                                                                  }
-;;                                                             }
-
-;;                                                       }
-
-;;                               }
-
-;;        }
+;;  :edges  [:cursor :node [:name]]]]]]})

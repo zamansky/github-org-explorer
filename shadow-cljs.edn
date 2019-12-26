@@ -3,7 +3,9 @@
 
  :dependencies [[reagent "0.8.1"]
                 [cljs-http "0.1.46"]
-                [district0x/graphql-query "1.0.6"]
+                [floatingpointio/graphql-builder "0.1.8"]
+                [com.taoensso/timbre "4.10.0"]
+
                 ]
 
  :builds {:main {:target :node-script

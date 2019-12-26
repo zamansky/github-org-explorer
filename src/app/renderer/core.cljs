@@ -30,7 +30,23 @@
 [:button.text-sm.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3.rounded {:on-click #(action localstate) :id name} name]
 )
 
+
+(defn org-selector []
+  (let [orgs (:orgs @state/state)
+        org (first orgs)]
+    [:select {:on-change #(swap! state/state assoc :org (-> % .-target .-value))}
+     
+     (for [o orgs]
+       [:option {:value o} o]
+       )
+     ]
+    
+    ))
+
+
+
 (defn navbar []
+<<<<<<< HEAD
 (let [localstate (r/atom {:username "" :password ""})]
   (fn []
     (if (not  (:authenticated @state/state))
@@ -46,6 +62,25 @@
 (defn get-orgs []
 
 )
+=======
+  (let [localstate (r/atom {:username "" :password ""})]
+    (fn []
+      (if (not  (:authenticated @state/state))
+        [:ul.flex
+         [:li.mr-6 (input-field "text" "Username" localstate :username)]
+         [:li.mr-6 (input-field "text" "Password" localstate :password)]
+         [:li.mr-6 (button-field  "Login" login localstate)]
+         ]
+        
+        [:ul.flex
+         [:li.m-6.py-2.my-1 "Organization: " (org-selector)]
+         [:li.m-6.py-2.my-1 (button-field "Logout" logout localstate)]
+         
+         ]
+        )
+      )))
+
+>>>>>>> deefd3e1dbc08ae1ace13a35788817a58f96a867
 (defn main-component []
 [:div 
  [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]

@@ -3,29 +3,30 @@
             [cljs.core.async :refer (chan put! <! >! go go-loop timeout)]
             [cljs-http.client :as http]
             [goog.crypt.base64 :refer [encodeString decodeString]]
+            [app.renderer.api]
             ))
 
 
 
+(defonce original-state {:authenticated false
+                         :username "username"
+                         :password "password"
+                         :orgs[]
+                         :org ""
+                         :filter #""
+                         :all-repos []
+                         :active-repos []
+                         
+                         })
 (defonce state
-  (r/atom {:authenticated false
-           :username "username"
-           :password "password"
-           :orgs[]
-           :org ""
-           :all-repos []
-           :active-repos []
-           
-           }))
-
+  (r/atom original-state))
 (declare event-queue)
 
 (defn login [state {:keys [username password] :as payload}]
-  (prn username password)
   (let [credentials (encodeString (str username ":" password))]
-    (go (let [response (<! (http/get "https://api.github.com/" {:with-credentials? false
-                                                                :headers {"Authorization" (str "Basic " credentials)}
-                                                                }))]
+    (go (let [response (<! (http/get "https://api.github.com/user/orgs" {:with-credentials? false
+                                                                         :headers {"Authorization" (str "Basic " credentials)}
+                                                                         }))]
           (if (:success response)
             (>! event-queue [:succesful-login-completed {:username username :credentials credentials}])
             )
@@ -34,12 +35,13 @@
 
 (defn login-succeeded [state {:keys [username credentials] :as payload}]
   (swap! state assoc :authenticated true :username username :credentials credentials)
+  (app.renderer.api/load-orgs-into-state state)
   )
 
 
 
 (defn logout [state payload]
-  (swap! state assoc :authenticated false :username nil :credentials nil))
+  (reset! state original-state))
 
 (def event-queue (chan))
 

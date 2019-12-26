@@ -13,6 +13,7 @@
                          :password "password"
                          :orgs[]
                          :org ""
+                         :filter #""
                          :all-repos []
                          :active-repos []
                          

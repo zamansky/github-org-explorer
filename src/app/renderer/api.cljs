@@ -1,6 +1,5 @@
 (ns app.renderer.api
   (:require
-   [graphql-query.core :refer [graphql-query]]
    [cljs.core.async :refer (chan put! <! >! go go-loop timeout)]
    [cljs-http.client :as http]
    ))

@@ -46,23 +46,6 @@
 
 
 (defn navbar []
-<<<<<<< HEAD
-(let [localstate (r/atom {:username "" :password ""})]
-  (fn []
-    (if (not  (:authenticated @state/state))
-      [:ul.flex
-       [:li.mr-6 (input-field "text" "Username" localstate :username)]
-       [:li.mr-6 (input-field "text" "Password" localstate :password)]
-       [:li.mr-6 (button-field  "Login" login localstate)]
-       ]
-      [:ul.flex   [:li.m-6.py-2.my-1 (button-field "Logout" logout localstate)]]
-      )
-    )))
-
-(defn get-orgs []
-
-)
-=======
   (let [localstate (r/atom {:username "" :password ""})]
     (fn []
       (if (not  (:authenticated @state/state))
@@ -80,16 +63,15 @@
         )
       )))
 
->>>>>>> deefd3e1dbc08ae1ace13a35788817a58f96a867
 (defn main-component []
-[:div 
- [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
- [:div.py-1.font-bold "Login with your GitHub ID"]
- [navbar]
- [:hr]
- ]
+  [:div 
+   [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
+   [:div.py-1.font-bold "Login with your GitHub ID"]
+   [navbar]
+   [:hr]
+   ]
 
-)
+  )
 
 
 (defn start! []

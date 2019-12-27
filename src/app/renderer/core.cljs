@@ -35,8 +35,7 @@
 
 (defn org-selector []
   (let [orgs (:orgs @state/state)
-        org (first orgs)]
-    (api/load-all-repos state/state)
+        org ""]
     [:select {:on-change #(do (swap! state/state assoc :org (-> % .-target .-value))
                               (api/load-all-repos state/state)
                               )}
@@ -114,18 +113,36 @@
     ]
    ]
   )
+(defn empty-modal[]
+  [:div#modals])
+(defn export-modal[]
+  [:div#modals.fixed.pin.z-50.overflow-auto.flex.h-full.w-full.bg-blue-400.opacity-50
+
+   [:div.relative.p-8.bg-white.w-full.max-w-md.m-auto.flex-col.flex
+    [:input {:type "file" :webkitdirectory 1 }]
+    [:button.bg-red-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component empty-modal (.getElementById js/document "modals"))}"Cancel"]
+    [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "Export"]
+    ]
+
+   ]
+  )
 
 (defn main-component []
-  [:div#main 
+  [:div#main
+   [:div#modals]
+
    [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
    [:div.py-1.font-bold "Login with your GitHub ID"]
    [navbar]
    [:hr]
    [:div.flex
-    [:div {:class "w-1/4"} (filter-input)]
+    [:div {:class "w-1/4"}
+     (filter-input)
+     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component export-modal (.getElementById js/document "modals") )} "Export"]
+     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "delete"]
+     ]
     [:div.px-3 {:class "w-3/4"} (get-repo-list)]
     ]
-   
    ]
 
   )

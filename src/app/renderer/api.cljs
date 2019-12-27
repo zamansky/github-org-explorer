@@ -9,7 +9,7 @@
             (<! (http/get "https://api.github.com/user/orgs" {:with-credentials? false
                                                               :headers {"Authorization" (str "Basic " (get @state  :credentials))}}))
             ]
-        (let [orglist (mapv #(:login %) (:body response))]
+        (let [orglist (into [""] (mapv #(:login %) (:body response)))]
           (swap! state assoc :orgs orglist :org (first orglist) )
           ))))
 
@@ -25,7 +25,8 @@
         creds (:credentials @state)
         url (goog.string/format "https://api.github.com/orgs/%s/repos" org)
         ]
-    (go-loop [repos [] url url times 0]
+    (swap! state assoc :all-repos ["LOADING"])
+    (go-loop [repos [] url url ]
       (let [response (<! (http/get url {:with-credentials? false
                                         :headers {"Authorization"(goog.string/format "Basic %s" creds)}}))
             body (:body response)
@@ -37,11 +38,12 @@
         (cond
           (nil? link)  (swap! state assoc :all-repos (sort (into repos additional-repos )))
           
-          :else (recur (into repos additional-repos) next-link (inc times))
-          )
+          :else (recur (into repos additional-repos) next-link ))
         )
       )
+    
     )
   )
+
 
 

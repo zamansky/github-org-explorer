@@ -119,10 +119,12 @@
 (defn empty-modal[]
   [:div#modals])
 (defn export-modal[]
-  [:div#modals.fixed.pin.z-50.overflow-auto.flex.h-full.w-full.bg-blue-400.opacity-50
+  [:div#modals.fixed.pin.z-50.overflow-auto.flex.h-full.w-full.bg-smoke-lightest.opacity-100
    
    [:div.relative.p-8.bg-full-white.w-full.max-w-md.m-auto.flex-col.flex
     [:label.block.text-tray-500.font-bold.md:.mb-2.mr-3.py-1 "Path: "]
+    [:input.appearance-none.h-1.block.bg-gray-200.border-2.border-gray200.rounded.px-2.py-4]
+    [:label.block.text-tray-500.font-bold.md:.mb-2.mr-3.py-1 "Chop: "]
     [:input.appearance-none.h-1.block.bg-gray-200.border-2.border-gray200.rounded.px-2.py-4]
     [:button.bg-red-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component empty-modal (.getElementById js/document "modals"))}"Cancel"]
     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "Export"]

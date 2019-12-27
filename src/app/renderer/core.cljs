@@ -135,14 +135,15 @@
    [:div.py-1.font-bold "Login with your GitHub ID"]
    [navbar]
    [:hr]
-   [:div.flex
-    [:div {:class "w-1/4"}
-     (filter-input)
-     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component export-modal (.getElementById js/document "modals") )} "Export"]
-     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "delete"]
-     ]
-    [:div.px-3 {:class "w-3/4"} (get-repo-list)]
-    ]
+   (if (:authenticated @state/state)
+     [:div.flex
+      [:div {:class "w-1/4"}
+       (filter-input)
+       [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component export-modal (.getElementById js/document "modals") )} "Export"]
+       [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "delete"]
+       ]
+      [:div.px-3 {:class "w-3/4"} (get-repo-list)]
+      ])
    ]
 
   )

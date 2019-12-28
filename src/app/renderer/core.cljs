@@ -70,14 +70,19 @@
 
 (defn filter-repos []
   (let [filt  (:filter @state/state)
-        repos     (if (= filt "")
+        repos     (if (or (= filt "") (nil? filt))
                     (do (swap! state/state assoc :active-repos (:all-repos @state/state))
                         (:active-repos @state/state))
                     (do
-                      (let [filtered  (filter #(re-matches (re-pattern (str ".*" filt ".*")) %) (:all-repos @state/state))
+                      (let [filtered  (into []  (filter #(try
+                                                           (re-matches (re-pattern (str ".*" filt ".*")) %)
+                                                           (catch js/Object e %))
+                                                        (:all-repos @state/state)))
                             ]
-                        (do (swap! state/state assoc :active-repos filtered)
-                            (:active-repos @state/state))
+                        (do
+                          (swap! state/state assoc :active-repos filtered)
+                          (:active-repos @state/state)
+                          )
                         )
                       ))
         ]
@@ -89,6 +94,7 @@
   (let [repos (filter-repos)
         org (:org @state/state)
         url (goog.string/format "https://github.com/%s/" org)
+        
         ]
     [:ol
      (for [r repos]

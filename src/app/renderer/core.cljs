@@ -120,8 +120,13 @@
   [:div#modals])
 
 
-(defn export-modal[]
-  (let [payload (r/atom {:path "/tmp" :chop ""})]
+(defn export-modal []
+  (let [chop (api/find-common-prefix (:active-repos @state/state))
+        payload (r/atom {:chop chop
+                         :path (str "/tmp/" chop)
+                         })
+        ]
+
     (fn []
       [:div#modals.fixed.pin.z-50.overflow-auto.flex.h-full.w-full.bg-smoke-lightest.opacity-100
        
@@ -139,6 +144,7 @@
         [:input.appearance-none.h-1.block.bg-gray-200.border-2.border-gray200.rounded.px-2.py-4
          {
           :type "text"
+          
           :on-change #(swap! payload assoc-in [:chop] (-> % .-target .-value))
           :value (:chop @payload) :id "chop" 
           }
@@ -154,31 +160,31 @@
       )))
 
 (defn main-component []
-  [:div#main
-   [:div#modals]
+[:div#main
+ [:div#modals]
 
-   [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
-   [:div.py-1.font-bold "Login with your GitHub ID"]
-   [navbar]
-   [:hr]
-   (if (:authenticated @state/state)
-     [:div.flex
-      [:div {:class "w-1/4"}
-       (filter-input)
-       [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [export-modal] (.getElementById js/document "modals") )} "Export"]
-       [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "delete"]
-       ]
-      [:div.px-3 {:class "w-3/4"} (get-repo-list)]
-      ])
-   ]
+ [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
+ [:div.py-1.font-bold "Login with your GitHub ID"]
+ [navbar]
+ [:hr]
+ (if (:authenticated @state/state)
+   [:div.flex
+    [:div {:class "w-1/4"}
+     (filter-input)
+     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [export-modal] (.getElementById js/document "modals") )} "Export"]
+     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "delete"]
+     ]
+    [:div.px-3 {:class "w-3/4"} (get-repo-list)]
+    ])
+ ]
 
-  )
+)
 
 
 (defn start! []
 (r/render
- [main-component]
- (js/document.getElementById "app-container")))
+[main-component]
+(js/document.getElementById "app-container")))
 
 (start!)
 

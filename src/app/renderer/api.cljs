@@ -47,3 +47,12 @@
 
 
 
+(defn find-common-prefix [l]
+  ( reduce (fn f [a b]
+             (->> (mapv vector a b)
+                  (take-while (fn [[a b]] (= a b)))
+                  (map first)
+                  (apply str)
+                  )) l))
+
+

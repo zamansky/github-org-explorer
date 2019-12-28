@@ -128,8 +128,10 @@
 
 (defn export-modal []
   (let [chop (api/find-common-prefix (:active-repos @state/state))
+        pchop (if (= (last chop) \-) (apply str (drop-last chop)) chop)
+
         payload (r/atom {:chop chop
-                         :path (str "/tmp/" chop)
+                         :path (str "/tmp/" pchop)
                          })
         ]
 

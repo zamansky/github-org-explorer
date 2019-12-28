@@ -28,13 +28,13 @@
                                                                          :headers {"Authorization" (str "Basic " credentials)}
                                                                          }))]
           (if (:success response)
-            (>! event-queue [:succesful-login-completed {:username username :credentials credentials}])
+            (>! event-queue [:succesful-login-completed {:username username :password password :credentials credentials}])
             )
           )) 
     ))
 
-(defn login-succeeded [state {:keys [username credentials] :as payload}]
-  (swap! state assoc :authenticated true :username username :credentials credentials)
+(defn login-succeeded [state {:keys [username credentials password] :as payload}]
+  (swap! state assoc :authenticated true :username username :password password :credentials credentials)
   (app.renderer.api/load-orgs-into-state state)
   )
 

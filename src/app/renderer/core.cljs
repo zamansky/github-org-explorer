@@ -8,9 +8,6 @@
             ))
 
 (def electron (js/require "electron"))
-(def simple-git (js/require "simple-git"))
-(def git (simple-git "."))
-;;(.clone git "http://github.com/zamansky/using-emacs" "/tmp/howdie")
 
 (defn login [payload]
   (put! state/event-queue [:login @payload])
@@ -40,6 +37,7 @@
   (let [orgs (:orgs @state/state)
         org ""]
     [:select {:on-change #(do (swap! state/state assoc :org (-> % .-target .-value))
+                              (swap! state/state assoc :filter "")
                               (api/load-all-repos state/state)
                               )}
      
@@ -110,7 +108,9 @@
    [:input.h-5.p-3.my-2.w-full
     {:on-change #(do
                    ( swap! state/state assoc :filter  (-> % .-target .-value))
+                   
                    )
+     :value (:filter @state/state)
      
      }
     ]
@@ -152,7 +152,10 @@
          ]
         [:button.bg-red-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component empty-modal (.getElementById js/document "modals"))}"Cancel"]
         [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded
-         {:on-click #(prn @payload)}
+         {:on-click #(do
+                       (api/export-repos @payload @state/state)
+                       (r/render-component empty-modal (.getElementById js/document "modals")))
+          }
          "Export"]
         ]
 

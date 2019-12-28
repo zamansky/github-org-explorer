@@ -2,7 +2,12 @@
   (:require
    [cljs.core.async :refer (chan put! <! >! go go-loop timeout)]
    [cljs-http.client :as http]
+   [taoensso.timbre :as timbre :refer [log info ]]
    ))
+
+(defonce simple-git (js/require "simple-git"))
+(defonce git (simple-git "/"))
+
 
 (defn load-orgs-into-state [state]
   (go (let [response
@@ -55,4 +60,16 @@
                   (apply str)
                   )) l))
 
+(defn export-repos [{:keys [chop path] :as payload} {:keys [active-repos] :as state}]
+  (let [base-url (goog.string/format "https://%s:%s@github.com/%s/" (:username state) (:password state) (:org state))
+        
+        ]
+    (doseq [repo active-repos]
+      (let [url (goog.string/format "%s/%s" base-url repo)
+            stripped-reponame (clojure.string/replace repo chop "")
+            dest (str path "/" stripped-reponame)
+            ]
+        (prn url)
+        (.clone git url dest (fn [r] (info "Cloned: " repo " - "  r)))
 
+        ) )))

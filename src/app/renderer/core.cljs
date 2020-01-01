@@ -170,26 +170,72 @@
        ]
       )))
 
+(defn delete-modal []
+  (let [confirmbox (r/atom "")
+        repos (:active-repos @state/state)
+        num-repos (count repos)
+        is-disabled (r/atom true)
+        ]
+
+    (fn []
+      [:div#modals.fixed.pin.z-50.overflow-auto.flex.h-full.w-full.bg-smoke-lightest.opacity-100
+       
+       [:div.relative.p-8.bg-full-white.w-full.max-w-md.m-auto.flex-col.flex
+        [:div [:span.text-red-600.font-bold "Danger - "] (goog.string/format "about to delete %d repos. Type " num-repos) [:span.font-bold.font-lg "DELETE"] " to confirm deletion." ]
+        [:label.block.text-tray-500.font-bold.md:.mb-2.mr-3.py-1 "Confirm: "]
+        [:input.appearance-none.h-1.block.bg-gray-200.border-2.border-gray200.rounded.px-2.py-4
+         {
+          :type "text"
+          :on-change #(let [element (.getElementById js/document "delete-button")
+                            ]
+                        (reset! confirmbox (-> % .-target .-value))
+                        (if (= @confirmbox "DELETE")
+                          (reset! is-disabled false)
+                          (reset! is-disabled true)
+                          ;; document.getElementById ("button").disabled=false
+                          )
+                        )
+          :value @confirmbox :id "confirm"
+          } 
+
+         ]
+
+        
+        [:button.bg-red-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-5.rounded {:on-click #(r/render-component empty-modal (.getElementById js/document "modals"))}"Cancel"]
+        
+        [:button#delete-button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3.mx-4.my-5.rounded
+         {:disabled @is-disabled
+          :on-click #(do
+                       (prn "DELETING")
+                       ;;(r/render-component empty-modal (.getElementById js/document "modals"))
+                       )
+          }
+         "DELETE"]
+        ]
+
+       ]
+      )))
+
 (defn main-component []
-[:div#main
- [:div#modals]
+  [:div#main
+   [:div#modals]
 
- [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
- [:div.py-1.font-bold "Login with your GitHub ID"]
- [navbar]
- [:hr]
- (if (:authenticated @state/state)
-   [:div.flex
-    [:div {:class "w-1/4"}
-     (filter-input)
-     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [export-modal] (.getElementById js/document "modals") )} "Export"]
-     [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded "delete"]
-     ]
-    [:div.px-3 {:class "w-3/4"} (get-repo-list)]
-    ])
- ]
+   [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
+   [:div.py-1.font-bold "Login with your GitHub ID"]
+   [navbar]
+   [:hr]
+   (if (:authenticated @state/state)
+     [:div.flex
+      [:div {:class "w-1/4"}
+       (filter-input)
+       [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [export-modal] (.getElementById js/document "modals") )} "Export"]
+       [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [delete-modal] (.getElementById js/document "modals") )} "delete"]
+       ]
+      [:div.px-3 {:class "w-3/4"} (get-repo-list)]
+      ])
+   ]
 
-)
+  )
 
 
 (defn start! []

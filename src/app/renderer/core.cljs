@@ -187,11 +187,18 @@
          {
           :type "text"
           :on-change #(let [element (.getElementById js/document "delete-button")
+                            cl  (.-classList element)
                             ]
                         (reset! confirmbox (-> % .-target .-value))
                         (if (= @confirmbox "DELETE")
-                          (reset! is-disabled false)
-                          (reset! is-disabled true)
+                          (do  (reset! is-disabled false)
+                               (.remove cl "bg-blue-500")
+                               (.add cl "bg-green-500")
+                               )
+                          (do  (reset! is-disabled true)
+                               (.remove cl "bg-green-500")
+                               (.add cl "bg-blue-500")
+                               )
                           ;; document.getElementById ("button").disabled=false
                           )
                         )

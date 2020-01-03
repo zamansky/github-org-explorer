@@ -14,9 +14,6 @@ You can then use the regex filter to select a subset of the repos in the organza
  Here's a video walkthrough [Video Link](https://www.youtube.com/watch?v=e-gNzuBG3mU&feature=youtu.be)
  
  
- <iframe width="560" height="315" src="https://www.youtube.com/embed/e-gNzuBG3mU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
 # Notes
 
 When deleting, it takes a bit of time for the API to update. Right

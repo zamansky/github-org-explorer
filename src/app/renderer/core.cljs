@@ -219,8 +219,10 @@
         [:button#delete-button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3.mx-4.my-5.rounded
          {:disabled @is-disabled
           :on-click #(do
-                       (prn "DELETING")
-                       ;;(r/render-component empty-modal (.getElementById js/document "modals"))
+                       (api/delete-repos state/state)
+                       (r/render-component empty-modal (.getElementById js/document "modals"))
+                       (swap! state/state assoc :filter "")
+                       (api/load-all-repos state/state)
                        )
           }
          "DELETE"]
@@ -244,6 +246,7 @@
        (filter-input)
        [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [export-modal] (.getElementById js/document "modals") )} "Export"]
        [:button.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3..mx-4.my-1.rounded {:on-click #(r/render-component [delete-modal] (.getElementById js/document "modals") )} "delete"]
+       [:button.bg-green-500.hover:bg-green-700.text-white.font-bold.px-3..mx-4.my-4.rounded {:on-click #(api/load-all-repos state/state )} "reload"]
        ]
       [:div.px-3 {:class "w-3/4"} (get-repo-list)]
       ])

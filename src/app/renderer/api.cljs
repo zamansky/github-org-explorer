@@ -8,7 +8,6 @@
 (defonce simple-git (js/require "simple-git"))
 (defonce git (simple-git "/"))
 
-
 (defn load-orgs-into-state [state]
   (go (let [response
             (<! (http/get "https://api.github.com/user/orgs" {:with-credentials? false
@@ -69,7 +68,28 @@
             stripped-reponame (clojure.string/replace repo chop "")
             dest (str path "/" stripped-reponame)
             ]
-        (prn url)
         (.clone git url dest (fn [r] (info "Cloned: " repo " - "  r)))
 
         ) )))
+
+
+;;DELETE https://api.github.com/repos/zamansky/graphql-test
+(defn delete-repos [state]
+  (doseq [repo (:active-repos @state)]
+    (info "Deleting: " repo)
+    (go (let [org (:org @state)
+              credentials (:credentials @state)
+              url (goog.string/format "https://api.github.com/repos/%s/%s" org repo)
+              response (<! (http/delete url
+                                        {:with-credentials? false
+                                         :headers {"Authorization" (str "Basic " credentials)}}))
+              ]
+          (if (:success response)
+            (do (info "Deleted " repo)
+                )
+            (info "Error in deleting " repo " : " (:status response))
+            )
+          
+          )))
+
+  )

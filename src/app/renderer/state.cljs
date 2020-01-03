@@ -16,7 +16,7 @@
                          :filter ""
                          :all-repos []
                          :active-repos []
-                         
+                         :status ""
                          })
 (defonce state
   (r/atom original-state))
@@ -29,12 +29,13 @@
                                                                          }))]
           (if (:success response)
             (>! event-queue [:succesful-login-completed {:username username :password password :credentials credentials}])
+            (swap! state assoc :status "Invalid login")
             )
           )) 
     ))
 
 (defn login-succeeded [state {:keys [username credentials password] :as payload}]
-  (swap! state assoc :authenticated true :username username :password password :credentials credentials)
+  (swap! state assoc :authenticated true :username username :password password :credentials credentials :status "")
   (app.renderer.api/load-orgs-into-state state)
   )
 

@@ -57,7 +57,7 @@ The directories created by electorn-packager contain the full release - you can 
 
 You can always run the application from this directory after building via *electron .*
 
-# Notes
+# More notes
 
 I used the starter code from https://github.com/ahonn/shadow-electron-starter
 

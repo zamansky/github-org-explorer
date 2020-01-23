@@ -41,7 +41,7 @@ npm run build
 electron-packager . GitHub-Org-Browser --platform=all --arch=x64
 ```
 
-The above will build for alla vailable platforms. To just build one, specify platform:
+The above will build for all available platforms. To just build one, specify platform:
 
  - darwin
  - linux

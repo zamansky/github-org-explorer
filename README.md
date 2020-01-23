@@ -27,7 +27,7 @@ Likewise, it takes a bit of time to load a large organization - please be patien
 
 ## How to Run
 ```
-npm install electron-prebuilt -g
+npm install electron -g
 npm install shadow-cljs -g
 npm install
 

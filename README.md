@@ -49,7 +49,7 @@ The above will build for alla vailable platforms. To just build one, specify pla
  - win32
  
  
-Arch can be ia32, x63, armv7l, arm64, or mips64el
+Arch can be ia32, x64, armv7l, arm64, or mips64el
 
 The directories created by electorn-packager contain the full release - you can run or install from there.
 

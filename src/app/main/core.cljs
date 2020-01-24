@@ -2,7 +2,7 @@
   (:require ["electron" :refer [app BrowserWindow crashReporter]]))
 
 (def main-window (atom nil))
-
+;; start to convert this to oauth
 (defn init-browser []
   (reset! main-window (BrowserWindow.
                        (clj->js {:width 1024

@@ -13,7 +13,13 @@ You can then use the regex filter to select a subset of the repos in the organza
  
  Here's a video walkthrough [Video Link](https://www.youtube.com/watch?v=e-gNzuBG3mU&feature=youtu.be)
  
- 
+# Install notes for oauth:
+ 1. Go to settings from dropdown menu on right
+ 2. Develeopr settings from left menu
+ 3. OAuth apops from left menu
+ 3. New Oauth Appl (right hand side)
+ 4. name any url description https:/localhost
+ 5. Copy Client ID and client secret.
 # Notes
 
 When deleting, it takes a bit of time for the API to update. Right

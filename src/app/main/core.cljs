@@ -56,6 +56,9 @@
   (.loadURL @main-window (str "file://" js/__dirname "/public/index.html"))
   (.on @main-window "closed" #(reset! main-window nil)))
 
+
+;;----------------------------------------------------
+
 (defn main []
                                         ; CrashReporter can just be omitted
   (.start crashReporter

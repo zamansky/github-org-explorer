@@ -10,14 +10,6 @@
 (def electron (js/require "electron"))
 (def ipcRenderer (.-ipcRenderer electron))
 
-(defn login [payload]
-  (put! state/event-queue [:login @payload])
-  )
-
-(defn logout [payload]
-(put! state/event-queue [:logout @payload])
-)
-
 (defn input-field [type name localstate field]
   [:div.flex
    [:label.block.text-tray-500.font-bold.md:.mb-2.mr-3.py-1 (str  name ": ")]
@@ -51,28 +43,15 @@
 
 
 
-(defn login-enter [payload e]
-  (if (= "Enter" (.-key e))
-    (put! state/event-queue [:login @payload])
-    )
-  )
-
 (defn navbar []
   (let [localstate (r/atom {:username "" :password ""})]
     (fn []
-      (if (not  (:authenticated @state/state))
-        [:ul.flex {:on-key-up #(login-enter localstate %)}
-         [:li.mr-6 (input-field "text" "Username" localstate :username)]
-         [:li.mr-6 (input-field "password" "Password" localstate :password)]
-         [:li.mr-6 (button-field  "Login" login localstate)]
-         ]
-        
-        [:ul.flex
-         [:li.m-6.py-2.my-1 "Organization: " (org-selector)]
-         [:li.m-6.py-2.my-1 (button-field "Logout" logout localstate)]
-         
-         ]
-        )
+      
+      [:ul.flex
+       [:li.m-6.py-2.my-1 "Organization: " (org-selector)]
+       
+       ]
+      
       )))
 
 (defn filter-repos []
@@ -238,8 +217,6 @@
 
    [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
    [:h2.m-2.px-2.text-4xl.font-bold.bg-red-600.rounded.max-w-sm.rounded (:status @state/state)]
-   [:div.py-1.font-bold "Login with your GitHub ID"]
-   [:div.py-1.font-bold (:token @state/state)]
    [navbar]
    [:hr]
    (if (:authenticated @state/state)

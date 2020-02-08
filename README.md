@@ -1,5 +1,7 @@
 # GitHub Org Explorer
 
+This is the deprecated basic auth version
+
 This package is my attempt solve a couple of my personal pain points
 in using [GitHub Classroom](https://classroom.github.com) and GitHub Classroom Assistant.
 

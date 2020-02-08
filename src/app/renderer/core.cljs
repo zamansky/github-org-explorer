@@ -8,6 +8,7 @@
             ))
 
 (def electron (js/require "electron"))
+(def ipcRenderer (.-ipcRenderer electron))
 
 (defn login [payload]
   (put! state/event-queue [:login @payload])
@@ -238,6 +239,7 @@
    [:h1.m-5.text-4xl.font-bold "Organization Dashboard"]
    [:h2.m-2.px-2.text-4xl.font-bold.bg-red-600.rounded.max-w-sm.rounded (:status @state/state)]
    [:div.py-1.font-bold "Login with your GitHub ID"]
+   [:div.py-1.font-bold (:token @state/state)]
    [navbar]
    [:hr]
    (if (:authenticated @state/state)
@@ -256,9 +258,15 @@
 
 
 (defn start! []
-(r/render
-[main-component]
-(js/document.getElementById "app-container")))
+  (.on ipcRenderer "token" #((do
+                               (swap! state/state assoc :token (js->clj %2))
+                               (app.renderer.api/load-orgs-into-state state/state)
+                               (swap! state/state assoc :authenticated true)
+                               ) ) )
+  (.send ipcRenderer "get-token" "")
+  (r/render
+   [main-component]
+   (js/document.getElementById "app-container")))
 
 (start!)
 

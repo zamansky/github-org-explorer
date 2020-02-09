@@ -19,7 +19,8 @@ You can then use the regex filter to select a subset of the repos in the organza
  3. OAuth apops from left menu
  3. New Oauth Appl (right hand side)
  4. name any url description https:/localhost
- 5. Copy Client ID and client secret.
+ 5. Copy Client ID and client secret into the strings in src/app/main/keys.cljs
+ 
 # Notes
 
 When deleting, it takes a bit of time for the API to update. Right

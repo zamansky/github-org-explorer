@@ -22,10 +22,8 @@
   )
 
 (defn button-field [name action localstate]
-[:button.text-sm.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3.rounded {:on-click #(action localstate) :id name} name]
-)
-
-
+  [:button.text-sm.bg-blue-500.hover:bg-blue-700.text-white.font-bold.px-3.rounded {:on-click #(action localstate) :id name} name]
+  )
 (defn org-selector []
   (let [orgs (:orgs @state/state)
         org ""]

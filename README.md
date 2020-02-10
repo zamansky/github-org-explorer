@@ -34,7 +34,9 @@ Likewise, it takes a bit of time to load a large organization - please be patien
 
 ## How to Run
 ```
-npm install electron-prebuilt -g
+I had to upgrade my version of node to get this all working. I use nvm so used ~nvm install node~ to accomplish this. Then I did the rest:
+
+npm install electron -g
 npm install shadow-cljs -g
 npm install
 

@@ -63,9 +63,9 @@ npm install electron-packager -g
 npm run build
 electron-packager . GitHub-Org-Explorer --platform=linux --arch=x64 --electron-version=v8.0.1
 ```
-You should replace the *v8.0.1* electron version with whatever you built and are running this under. Check by running ```electron --version```
+You should replace the *v8.0.1* electron version with whatever you built and are running this under. Check by running ```electron --version```. 
 
-The above will build for alla vailable platforms. To just build one, specify platform:
+The above will build for linux. Other platform options include:
 
  - darwin
  - linux

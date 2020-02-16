@@ -1,7 +1,5 @@
 # GitHub Org Explorer
 
-This is the deprecated basic auth version
-
 This package is my attempt solve a couple of my personal pain points
 in using [GitHub Classroom](https://classroom.github.com) and GitHub Classroom Assistant.
 
@@ -14,7 +12,10 @@ You can then use the regex filter to select a subset of the repos in the organza
  
  
  Here's a video walkthrough [Video Link](https://www.youtube.com/watch?v=e-gNzuBG3mU&feature=youtu.be)
- 
+
+This project is for my personal use so it doesn't do much error
+checking or reporting but it's working pretty well for me.
+
 # Install notes for oauth:
  1. Go to settings from dropdown menu on right
  2. Develeopr settings from left menu
@@ -50,9 +51,18 @@ electron .
 ```
 
 ## Release
+
+*This isn't currently working*
+
+If you haven't already isntalled it, install electron-packager:
+
+```
+npm install electron-packager -g
+```
+
 ```
 npm run build
-electron-packager . GitHub-Org-Browser --platform=all --arch=x64
+electron-packager . GitHub-Org-Explorer --platform=linux --arch=x64
 ```
 
 The above will build for alla vailable platforms. To just build one, specify platform:
@@ -61,6 +71,9 @@ The above will build for alla vailable platforms. To just build one, specify pla
  - linux
  - mas
  - win32
+ - all
+
+Use *all* to build all for all platforms
  
  
 Arch can be ia32, x63, armv7l, arm64, or mips64el

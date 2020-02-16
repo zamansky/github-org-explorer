@@ -7,18 +7,18 @@
             ))
 
 
-
-(defonce original-state {:authenticated false
-                         :username "username"
-                         :password "password"
-                         :orgs[]
-                         :org ""
-                         :filter ""
-                         :all-repos []
-                         :active-repos []
-                         :status ""
-                         })
-(defonce state
+(def original-state {:authenticated false
+                     :token ""
+                     :username "username"
+                     :password "password"
+                     :orgs[]
+                     :org ""
+                     :filter ""
+                     :all-repos []
+                     :active-repos []
+                     :status ""
+                     })
+(def state
   (r/atom original-state))
 (declare event-queue)
 

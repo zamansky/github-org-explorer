@@ -1,5 +1,5 @@
 {
-   "name": "shadow-electorn-starter",
+   "name": "shadow-electron-starter",
    "version": "1.0.0",
    "description": "shadow-clijs electron starter",
    "main": "resources/main.js",
@@ -22,12 +22,16 @@
       "shadow-cljs": "^2.8.83"
    },
    "dependencies": {
+      "bufferutil": "^4.0.1",
       "create-react-class": "^15.6.3",
       "react": "^16.10.2",
       "react-dom": "^16.12.0",
       "require": "^2.4.20",
       "scheduler": "^0.18.0",
       "simple-git": "^1.129.0",
-      "tailwindcss": "^1.1.4"
+      "tailwindcss": "^1.1.4",
+      "utf-8-validate": "^5.0.2",
+      "ws": "^7.2.1",
+      "xmlhttprequest": "^1.8.0"
    }
 }

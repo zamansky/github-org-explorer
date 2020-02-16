@@ -1,0 +1,18 @@
+
+#+BEGIN_SRC 
+query {
+  user(login:"zamansky")
+  {   
+    repositories(first:10,after:"Y3Vyc29yOnYyOpHOAee2-g==")
+    {edges
+      {cursor
+	node{name }}
+      
+      
+      pageInfo{
+        endCursor
+        hasNextPage
+      }
+    }}
+}
+#+END_SRC

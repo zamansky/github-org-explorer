@@ -11,7 +11,7 @@
 (defn load-orgs-into-state [state]
   (go (let [response
             (<! (http/get "https://api.github.com/user/orgs" {:with-credentials? false
-                                                              :headers {"Authorization" (str "Basic " (get @state  :credentials))}}))
+                                                              :headers {"Authorization" (str "Bearer " (get @state :token) )}})) 
             ]
         (let [orglist (into [""] (mapv #(:login %) (:body response)))]
           (swap! state assoc :orgs orglist :org (first orglist) )
@@ -27,12 +27,13 @@
 (defn load-all-repos [state]
   (let [org (:org @state)
         creds (:credentials @state)
+        token (:token @state)
         url (goog.string/format "https://api.github.com/orgs/%s/repos" org)
         ]
     (swap! state assoc :all-repos ["LOADING"])
     (go-loop [repos [] url url ]
       (let [response (<! (http/get url {:with-credentials? false
-                                        :headers {"Authorization"(goog.string/format "Basic %s" creds)}}))
+                                        :headers {"Authorization"(goog.string/format "Bearer %s" token)}}))
             body (:body response)
             headers (:headers response)
             link (get headers "link")
@@ -60,7 +61,7 @@
                   )) l))
 
 (defn export-repos [{:keys [chop path] :as payload} {:keys [active-repos] :as state}]
-  (let [base-url (goog.string/format "https://%s:%s@github.com/%s/" (:username state) (:password state) (:org state))
+  (let [base-url (goog.string/format "https://%s@github.com/%s/" (:token state)  (:org state))
         
         ]
     (doseq [repo active-repos]
@@ -79,10 +80,11 @@
     (info "Deleting: " repo)
     (go (let [org (:org @state)
               credentials (:credentials @state)
+              token (:token @state)
               url (goog.string/format "https://api.github.com/repos/%s/%s" org repo)
               response (<! (http/delete url
                                         {:with-credentials? false
-                                         :headers {"Authorization" (str "Basic " credentials)}}))
+                                         :headers {"Authorization" (str "Bearer " token)}}))
               ]
           (if (:success response)
             (do (info "Deleted " repo)

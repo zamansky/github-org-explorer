@@ -29,7 +29,7 @@
       "react-dom": "^16.12.0",
       "require": "^2.4.20",
       "scheduler": "^0.18.0",
-      "simple-git": "^1.129.0",
+      "simple-git": "^3.3.0",
       "tailwindcss": "^1.1.4",
       "utf-8-validate": "^5.0.2",
       "ws": "^7.2.1",
